@@ -1,3 +1,5 @@
+package psycho;
+
 public class Utils {
 
     public static boolean isDigits(String value) {
