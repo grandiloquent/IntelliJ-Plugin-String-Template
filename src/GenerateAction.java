@@ -28,8 +28,8 @@ public class GenerateAction extends AnAction {
             if (Utils.isDigits(n)) {
                 StringBuilder sb = new StringBuilder();
                 int max = Integer.parseInt(n);
-                for (int i = 0; i < max; i++) {
-                    sb.append(value.replace(p, Integer.toString(i)));
+                for (int i = 1; i < max; i++) {
+                    sb.append(value.replaceAll(p, Integer.toString(i))).append('\n');
                 }
                 result = sb.toString();
             }

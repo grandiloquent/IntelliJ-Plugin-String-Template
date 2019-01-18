@@ -29,8 +29,8 @@
     </extensions>
 
     <actions>
-        <action class="GenerateAction">
-            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        <action class="GenerateAction" text="Generate Sequence String">
+            <add-to-group group-id="EditorPopupMenu" anchor="first" />
             <!--<keyboard-shortcut keymap="$default" first-keystroke="alt 1"/>-->
             <!--<keyboard-shortcut keymap="$default" first-keystroke="alt NUMPAD1"/>-->
         </action>
