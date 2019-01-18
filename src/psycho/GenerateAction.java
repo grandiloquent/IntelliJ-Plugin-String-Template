@@ -21,21 +21,38 @@ import javax.print.Doc;
 public class GenerateAction extends AnAction {
 
     public static void execute(Document document, int start, int end, String value) {
-        String p = "\\{\\{([^\\}]*)\\}\\}";
-        Pattern pattern = Pattern.compile(p);
-        Matcher matcher = pattern.matcher(value);
         String result = "";
-        if (matcher.find()) {
-            String n = matcher.group(1);
-            if (Utils.isDigits(n)) {
-                StringBuilder sb = new StringBuilder();
-                int max = Integer.parseInt(n);
-                for (int i = 1; i < max; i++) {
-                    sb.append(value.replaceAll(p, Integer.toString(i))).append('\n');
+        String p = "\\{\\{([^\\}]*)\\}\\}";
+        StringBuilder sb = new StringBuilder();
+
+        if (value.trim().startsWith("[") && value.indexOf(']') != -1) {
+            String array = Utils.substringAfter(value, "[");
+            array = Utils.substringBeforeLast(array, "]");
+            value = Utils.substringAfter(value, "]").trim();
+            String[] names = array.split("[\\s,;]+");
+            for (String n : names) {
+                sb.append(value.replaceAll(p, n)).append('\n');
+
+            }
+            result = sb.toString();
+
+
+        } else {
+
+            Pattern pattern = Pattern.compile(p);
+            Matcher matcher = pattern.matcher(value);
+            if (matcher.find()) {
+                String n = matcher.group(1);
+                if (Utils.isDigits(n)) {
+                    int max = Integer.parseInt(n);
+                    for (int i = 1; i < max; i++) {
+                        sb.append(value.replaceAll(p, Integer.toString(i))).append('\n');
+                    }
+                    result = sb.toString();
                 }
-                result = sb.toString();
             }
         }
+
         if (result.length() == 0) return;
         String finalResult = result;
         Runnable runnable = () -> document.replaceString(start, end, finalResult);
